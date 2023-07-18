@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-  const handleRegister = () => {
-    axios.post('http://localhost:5000/register', { username, password })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('Error while registering:', error);
-      });
-  };
+    const handleRegister = async (e) => {
+        e.preventDefault();
+
+        if (!username || !password) {
+            return;
+          }
+      
+    try {
+        await axios.post('http://localhost:5001/register', { username, password });
+        setUsername('');
+        setPassword('');
+    }   catch(error) {
+            console.error('Error while registering:', error);
+    }
+};
 
   return (
     <div>

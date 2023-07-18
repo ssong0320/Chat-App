@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mysql = require('mysql');
-const port = 5000;
+const port = 5001;
 
 app.use(express.json());
 app.use(cors());
-const bycrypt = require('bycrypt');
+const bcrypt = require('bcrypt');
 const socketIo = require('socket.io');
 const saltRounds = 2;
 
@@ -29,7 +29,7 @@ connection.connect((error) => {
 app.post('/register', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    bycrypt.hash(password, saltRounds, (err, hash) => {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
         if (err) throw err;
         const sql = 'INSERT INTO auth (username, password) VALUES (?, ?)';
         connection.query(sql, [username, hash], (err, result) => {
@@ -39,6 +39,6 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.listen(5000, () => {
-    console.log('Server running on http://localhost:5000');
+app.listen(5001, () => {
+    console.log('Server running on http://localhost:5001');
 });
